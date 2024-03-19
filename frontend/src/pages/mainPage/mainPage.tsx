@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
-import { Sidebar } from '@modules/sidebar/sidebar';
-import { SearchLine } from '@modules/searchLine/searchLine';
+import React, { FC } from 'react';
+import { Sidebar } from '@widgets/sidebar/sidebar';
+import { SearchLine } from '@widgets/searchLine/searchLine';
 
 import { Outlet } from 'react-router-dom';
 

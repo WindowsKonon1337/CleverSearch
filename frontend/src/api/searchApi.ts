@@ -4,7 +4,6 @@ import {
 	SearchResponse,
 	ShowParams,
 	ShowResponse,
-	fileTypes,
 } from '@models/searchParams';
 import { transformToSearchRequestString, transfromToShowRequestString } from './transforms'
 

@@ -11,8 +11,8 @@ import { LoginForm } from '@pages/login/login';
 import { AuthProvider, RequireAuth, ProtectedFromAuthUser } from './authProvider';
 import ErrorPage from '@pages/errorPage/errorPage';
 
-import { ShowShowedFiles } from '@modules/showResults/showShowedFiles/showShowedFiles'
-import { ShowSearchedFiles } from '@modules/showResults/showSearchedFiles/showSearchedFiles'
+import { ShowShowedFiles } from '@widgets/showResults/showShowedFiles/showShowedFiles'
+import { ShowSearchedFiles } from '@widgets/showResults/showSearchedFiles/showSearchedFiles'
 
 import './App.scss'
 

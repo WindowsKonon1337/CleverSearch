@@ -1,7 +1,7 @@
 import { useLoginMutation } from '@api/userApi';
 import { login as loginAction } from '@store/userAuth';
-import { Button, Variants } from '@ui/button/Button';
-import { Input } from '@ui/input/input';
+import { Button, Variants } from '@entities/button/Button';
+import { Input } from '@entities/input/input';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +13,10 @@ interface LoginFormProps { }
 export const LoginForm: FC<LoginFormProps> = () => {
 	const [loginField, setLogin] = useState('');
 	const [passwordField, setPassword] = useState('');
-  
-	const [login, loginResp] = useLoginMutation({fixedCacheKey: 'login'});
+
+	const [login, loginResp] = useLoginMutation({ fixedCacheKey: 'login' });
 	const dispatch = useDispatch();
-  
+
 	const navigate = useNavigate();
 
 	if (loginResp.isSuccess) {
@@ -49,10 +49,9 @@ export const LoginForm: FC<LoginFormProps> = () => {
 				variant={Variants.filled}
 				buttonText="Lets go"
 				clickHandler={
-					() =>
-					{
-						login({email: loginField, password: passwordField});
-            
+					() => {
+						login({ email: loginField, password: passwordField });
+
 					}
 				}
 				disabled={(loginField && passwordField) || loginResp.isLoading ? false : true}

@@ -28,6 +28,29 @@ export interface SearchParamsLocal {
   disk?: diskTypes[];
 }
 
+export const transformToSearchParams = (obj: {
+  query?: string, smartSearch?: boolean, limit?: number, offset?: number, file_type?: string, dir?: string, disk?: string
+}) => {
+  let fileType: fileTypes[];
+  if (obj.file_type) {
+    fileType = obj.file_type.split(',')?.filter(val => isFileType(val)) as fileTypes[] || ['all']
+  } else {
+    fileType = ['all']
+  }
+
+  return {
+    limit: obj.limit || 10,
+    offset: obj.offset || 0,
+    fileType: fileType || 'all',
+    dir: obj.dir ? obj.dir.split('/').filter(val => val !== '') : [],
+    disk: obj.disk || ['all'],
+    query: obj.query || '',
+    smartSearch: obj.smartSearch || false,
+  } as SearchParams
+}
+
+
+
 export interface SearchParams extends SearchParamsLocal {
   limit?: number;
   offset?: number;
@@ -66,8 +89,6 @@ export const transformToShowParams = (obj: {
   } else {
     fileType = ['all']
   }
-
-
 
   return {
     limit: obj.limit || 10,
