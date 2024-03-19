@@ -4,15 +4,15 @@ import YandexSVG from '@icons/disks/Yandex.svg';
 import MonitorSVG from '@icons/disks/Monitor.svg';
 
 export interface DiskType {
-  src: string;
-  altText: string;
+	src: string;
+	altText: string;
 }
 
 export const diskImgSrc = new Map([
 	[
 		'google',
 		{
-			src: GoogleSVG, 
+			src: GoogleSVG,
 			altText: 'text',
 		},
 	],
@@ -26,7 +26,7 @@ export const diskImgSrc = new Map([
 	[
 		'own',
 		{
-			src: DiskSVG, 
+			src: DiskSVG,
 			altText: 'text',
 		},
 	],

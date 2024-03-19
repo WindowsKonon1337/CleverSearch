@@ -14,6 +14,8 @@ import { newValues } from '@store/searchRequest';
 
 import SearchSVG from '@icons/Search.svg';
 import FilterSVG from '@icons/Filter.svg';
+import { useNavigate } from 'react-router-dom';
+import { transformToSearchRequestString, transfromToShowRequestString } from '@api/transforms';
 
 interface SearchLineProps { }
 
@@ -29,6 +31,7 @@ export const SearchLine: FC<SearchLineProps> = () => {
 
 	const [search, response] = useSearchMutation({ fixedCacheKey: 'search' });
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	return (
 		<div className="search-line">
@@ -44,6 +47,9 @@ export const SearchLine: FC<SearchLineProps> = () => {
 								dispatch(newValues(searchValue));
 								dispatch(switchToSearch());
 								dispatch(changeDir({ dirs: [] }));
+
+								const url = transformToSearchRequestString({ ...searchValue, limit: 10, offset: 0 })
+								navigate(url)
 							}
 						}}
 						onChange={(e) =>

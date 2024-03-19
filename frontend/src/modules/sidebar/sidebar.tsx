@@ -14,6 +14,8 @@ import { useSearchMutation, useShowMutation } from '@api/searchApi';
 import RobotSVG from '@icons/Robot.svg';
 import DownloadSVG from '@icons/Download.svg';
 import CleverSVG from '@icons/disks/Disk.svg';
+import { useNavigate } from 'react-router-dom';
+import { transfromToShowRequestString } from '@api/transforms';
 
 interface SidebarProps { }
 
@@ -21,7 +23,7 @@ const getTextWithImg = (
 	selected: boolean,
 	disk: DiskType,
 	text: string,
-	setState: (text: diskTypes) => void
+	setState: (text: diskTypes) => void,
 ) => {
 	const { src, altText } = disk;
 
@@ -52,6 +54,8 @@ export const Sidebar: FC<SidebarProps> = () => {
 	const [search] = useSearchMutation({ fixedCacheKey: 'search' });
 	const [show] = useShowMutation({ fixedCacheKey: 'show' });
 
+	const navigate = useNavigate()
+
 	const allDisks = Array.from(diskImgSrc.keys()).map((key) =>
 		getTextWithImg(
 			selectedField === key && !isSearch,
@@ -61,7 +65,10 @@ export const Sidebar: FC<SidebarProps> = () => {
 				setSelectedField(text);
 				if (!isShow) {
 					dispatch(switchToShow());
+					const url = transfromToShowRequestString({ limit: 10, offset: 0, disk: text })
+					navigate(url)
 				}
+
 				dispatch(changeDisk(text));
 			}
 		)

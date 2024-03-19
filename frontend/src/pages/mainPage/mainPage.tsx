@@ -1,17 +1,15 @@
 import React, { FC, useState } from 'react';
 import { Sidebar } from '@modules/sidebar/sidebar';
 import { SearchLine } from '@modules/searchLine/searchLine';
-import { DataShow } from '@modules/dataShow/dataShow';
-import { Button, Variants } from '@ui/button/Button';
+
+import { Outlet } from 'react-router-dom';
 
 export const MainPage: FC = () => {
-	const [isOpen, setOpen] = useState(false);
-
 	return <div className="App">
 		<Sidebar></Sidebar>
 		<div className="main-app">
 			<SearchLine></SearchLine>
-			<DataShow></DataShow>
+			<Outlet></Outlet>
 		</div>
 	</div>
 };
