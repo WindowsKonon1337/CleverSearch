@@ -8,12 +8,9 @@ interface FileShowProps {
 	filename: string;
 	date: string; // TODO think about change to date type
 	size: string;
+	onClickOnAllFileShow?: () => void,
 	onClick?: () => void;
 	onDelete: () => void;
-	isOpen: boolean;
-	url: string;
-	pageNumber?: number;
-	isModalExist: boolean
 }
 
 export const FileShow: FC<FileShowProps> = ({
@@ -24,15 +21,12 @@ export const FileShow: FC<FileShowProps> = ({
 	size,
 	onClick,
 	onDelete,
-	url,
-	pageNumber,
-	isModalExist
+	onClickOnAllFileShow,
 }) => {
-	const [isOpen, setOpen] = useState(false)
 
 	return (
 		<>
-			<div className="file-show-line" onClick={() => setOpen(true)} >
+			<div className="file-show-line" onClick={onClickOnAllFileShow} >
 				<div className="icon-placement">
 					<img className="icon" src={iconSrc} alt={altText ? altText : ''}></img>
 				</div>
@@ -43,7 +37,6 @@ export const FileShow: FC<FileShowProps> = ({
 				<div onClick={() => { onDelete() }}>Delete</div>
 				<div className="size">{size}</div>
 			</div>
-			{isModalExist ? <ModalWithPDF isOpen={isOpen} close={() => setOpen(false)} pdfURL={url} pageNumber={pageNumber}></ModalWithPDF> : null}
 		</>
 	);
 }

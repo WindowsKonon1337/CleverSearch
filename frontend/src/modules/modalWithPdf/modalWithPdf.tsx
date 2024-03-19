@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { Modal } from '@ui/modal/modal';
-import { ViewPDF } from '@ui/viewPDF/viewPDF';
-import './ModalWithPDF.scss'
+import { ViewPDF } from '@ui/showFiles/viewPDF/viewPDF';
+import './modalWithPDF.scss'
 
 interface ModalWithPDFProps {
     isOpen: boolean;

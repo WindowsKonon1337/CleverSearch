@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
 
 import { MainPage } from '@pages/mainPage/mainPage';
-import { LoginForm } from '@modules/login/login';
+import { LoginForm } from '@pages/login/login';
 
 import { AuthProvider, RequireAuth, ProtectedFromAuthUser } from './authProvider';
 import ErrorPage from '@pages/errorPage/errorPage';

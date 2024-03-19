@@ -7,6 +7,8 @@ import React, { Dispatch, FC, useEffect, useState } from 'react';
 import folderIconPath from '@icons/files/Folder.svg';
 import documentIconPath from '@icons/files/Book.svg';
 import imageIconPath from '@icons/files/image.svg';
+import { ModalWithPDF } from '@modules/modalWithPdf/modalWithPdf';
+import { ModalWithImg } from '@modules/modalWithImg/modalWithPdf';
 
 export interface RenderFieldsProps {
 	data: fileFile[],
@@ -43,7 +45,8 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 	return (
 		<div>
 			{data.map((file) => {
-				let isModalExist = false;
+				let renderModal: () => React.ReactNode | null;
+
 				let iconSrc = '';
 				let clickHandler: () => void;
 				if (file.is_dir) {
@@ -56,20 +59,43 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 							}));
 						openFolder(dirsPath);
 					};
+					renderModal = () => null
 				} else {
 					clickHandler = () => { }
 					const splits = file['content_type']?.split('/');
 					if (splits?.length > 0) {
 						switch (splits[1]) {
 							case 'pdf':
-								isModalExist = true;
+								renderModal = () => {
+									return (
+										<ModalWithPDF
+											isOpen={isOpen}
+											close={() => setOpen(false)}
+											pdfURL={file.link}
+											pageNumber={0}
+										/>)
+								}
 								iconSrc = documentIconPath;
+								break;
+							case 'png':
+							case 'img':
+								renderModal = () => {
+									return (
+										<ModalWithImg
+											close={() => setOpen(false)}
+											imgSrc={file.link}
+											isOpen={isOpen}
+										/>
+									)
+								}
+								iconSrc = imageIconPath;
 								break;
 							default:
 								iconSrc = imageIconPath;
 						}
 					}
 				}
+				const [isOpen, setOpen] = useState(false)
 
 
 				return (
@@ -81,13 +107,11 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 							filename={file.is_dir ? file.path.split('/').pop() : file.filename}
 							date={file.date}
 							size={file.size}
-							isOpen={false}
-							url={file.link}
-							pageNumber={0}
 							onClick={clickHandler}
 							onDelete={() => deleteFile(file.path)}
-							isModalExist={isModalExist}
+							onClickOnAllFileShow={() => setOpen(true)}
 						></FileShow>
+						{renderModal()}
 					</>
 				);
 			})}

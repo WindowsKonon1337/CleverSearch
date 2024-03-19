@@ -1,5 +1,5 @@
 import { DiskType, diskImgSrc } from '@models/disk';
-import { switchToShow } from '@store/whatToShow';
+import { switchToProcessed, switchToShow } from '@store/whatToShow';
 import { Button, Variants } from '@ui/button/Button';
 import { TextWithImg } from '@ui/textWithImg/textWithimg';
 import React, { FC, useEffect, useState } from 'react';
@@ -48,7 +48,7 @@ export const Sidebar: FC<SidebarProps> = () => {
 		Array.from(diskImgSrc.keys())[4]
 	);
 
-	const { isSearch, isShow } = useAppSelector((state) => state.whatToShow);
+	const { isSearch, isShow, isProccessed } = useAppSelector((state) => state.whatToShow);
 	const { dirs, currentDisk } = useAppSelector((state) => state.currentDirDisk);
 	const dispatch = useDispatch();
 	const [search] = useSearchMutation({ fixedCacheKey: 'search' });
@@ -58,7 +58,7 @@ export const Sidebar: FC<SidebarProps> = () => {
 
 	const allDisks = Array.from(diskImgSrc.keys()).map((key) =>
 		getTextWithImg(
-			selectedField === key && !isSearch,
+			selectedField === key && isShow,
 			diskImgSrc.get(key)!,
 			key,
 			(text) => {
@@ -154,23 +154,17 @@ export const Sidebar: FC<SidebarProps> = () => {
 					imgSrc={DownloadSVG}
 					altImgText="Загрузка"
 				/>
-				{/*TODO  изменить на другой элемент*/}
-				<div
-					className={['text-with-img', 'work-in-progress'].join(' ')}
-					onClick={() => console.log('TODO')}
-				>
-					<img
-						className="text-image"
-						src={
-							RobotSVG
-						}
-						alt={'Робот'}
-					></img>
-					<div className="container-text">
-						<p className="text big-text">{'Обрабатываются'}</p>
-						<p className="text small-text">{'для умного поиска'}</p>
-					</div>
-				</div>
+				<TextWithImg
+					text="Обрабатываются"
+					className={['text-with-img', 'work-in-progress', isProccessed ? 'selected' : ''].join(' ')}
+					imgSrc={RobotSVG}
+					altImgText="Робот"
+					onClick={() => {
+						dispatch(switchToProcessed());
+						dispatch(changeDisk('all'))
+						navigate('/processed')
+					}}
+				/>
 			</div>
 		</div>
 	);

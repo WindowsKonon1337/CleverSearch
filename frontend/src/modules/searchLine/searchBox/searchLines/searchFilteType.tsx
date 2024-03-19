@@ -45,8 +45,7 @@ const fileValues = (
 			newDiskValuesInString = diskValuesInString;
 		}
 
-		// @ts-expect-error check value 
-		return [newDiskValuesInString].map((type) => fileTypes[type]);
+		return newDiskValuesInString.map((type) => type);
 	}
 	if (newVal) {
 		if (isFileType(newVal.value)) {
