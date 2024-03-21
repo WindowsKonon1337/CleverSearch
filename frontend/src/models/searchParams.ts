@@ -43,7 +43,7 @@ export const transformToSearchParams = (obj: {
     offset: obj.offset || 0,
     fileType: fileType || 'all',
     dir: obj.dir ? obj.dir.split('/').filter(val => val !== '') : [],
-    disk: obj.disk || ['all'],
+    disk: obj.disk?.split(',') || ['all'],
     query: obj.query || '',
     smartSearch: obj.smartSearch || false,
   } as SearchParams
@@ -114,4 +114,21 @@ export interface ShowResponse {
 export interface DiskSearch {
   disk: diskTypes;
   dir: string;
+}
+
+export type AccessRights = 'reader' | 'writer'
+
+export interface ShareRequest {
+  dir: string;
+  access_type: AccessRights;
+  by_emails: boolean;
+  emails: string[]
+}
+
+export interface ShareResponse {
+  body: {
+    share_link: string
+  },
+  message: string,
+  status: number,
 }

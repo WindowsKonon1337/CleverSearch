@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './modal.scss'
+import { Button } from '@entities/button/Button';
 
 interface ModalProps {
     isOpen: boolean;
@@ -16,6 +17,7 @@ export const Modal: FC<ModalProps> = ({
     className,
 }) => {
     const ref = useRef<HTMLDialogElement>(null)
+
     useEffect(() => {
         if (isOpen) {
             ref.current?.showModal();
@@ -23,7 +25,6 @@ export const Modal: FC<ModalProps> = ({
             ref.current?.close();
         }
     }, [isOpen]);
-
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -41,6 +42,7 @@ export const Modal: FC<ModalProps> = ({
 
     return ReactDOM.createPortal(
         <dialog
+            // TODO Try without none and check if closeModal is called
             style={isOpen ? {} : { display: 'none' }}
             ref={ref}
             aria-modal="true"
@@ -48,10 +50,10 @@ export const Modal: FC<ModalProps> = ({
             className={className + ' ' + 'modal-dialog'}
         >
             {isOpen ?
-                <div className='modal-body'>
+                <div className='modal-body' onClick={(event) => event.stopPropagation()}>
                     {children}
                     {/* TODO remove classname and set another */}
-                    <button onClick={closeModal} className='pdf-viewer'>Close</button>
+                    <Button clickHandler={closeModal} buttonText={'Закрыть'} variant={'filled'} className='pdf-viewer'></Button>
                 </div>
                 : null}
         </dialog>,

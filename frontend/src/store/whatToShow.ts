@@ -4,7 +4,7 @@ const showSlice = createSlice({
 	name: 'whatToShow',
 	initialState: {
 		isSearch: false,
-		isShow: true,
+		isShow: false,
 		isProccessed: false,
 	},
 	reducers: {

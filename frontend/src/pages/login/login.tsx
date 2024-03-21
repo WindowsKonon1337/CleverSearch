@@ -1,6 +1,6 @@
 import { useLoginMutation } from '@api/userApi';
 import { login as loginAction } from '@store/userAuth';
-import { Button, Variants } from '@entities/button/Button';
+import { Button } from '@entities/button/Button';
 import { Input } from '@entities/input/input';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -46,7 +46,7 @@ export const LoginForm: FC<LoginFormProps> = () => {
 				></Input>
 			</div>
 			<Button
-				variant={Variants.filled}
+				variant={'filled'}
 				buttonText="Lets go"
 				clickHandler={
 					() => {

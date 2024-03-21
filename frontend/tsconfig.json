@@ -17,6 +17,7 @@
       "@widgets/*":["./src/widgets/*"],
       "@feature/*":["./src/feature/*"],
       "@entities/*":["./src/entities/*"],
+      "@helpers/*":["./src/helpers/*"],
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

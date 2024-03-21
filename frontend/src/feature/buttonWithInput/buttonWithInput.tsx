@@ -1,6 +1,8 @@
 import React, { FC, useRef } from 'react';
 import { Button, Variants } from '@entities/button/Button';
 
+import './buttonWithInput.scss'
+
 interface ButtonWithInputProps {
   onChange: (a: FileList) => void;
   disabled: boolean;
@@ -34,7 +36,7 @@ export const ButtonWithInput: FC<ButtonWithInputProps> = ({
         ref={hiddenFileInput}
         type="file"
         disabled={disabled}
-        style={{ display: 'none' }}
+        className={'hidden-input'}
         onChange={(event) => {
           const files = event.target.files;
           if (files) {

@@ -12,7 +12,7 @@ export const transformToSearchRequestString = (searchReq: SearchParams): string 
 	return [`files/search?is_smart_search=${searchReq.smartSearch}`,
 	`&query=${searchReq.query}`,
 	`&disk=${searchReq.disk ? searchReq.disk : 'all'}`,
-	`&file_type=${searchReq.fileType ? searchReq.fileType : 'all' as fileTypes}`,
+	`&file_type=${searchReq.fileType ? searchReq.fileType.join(',') : 'all' as fileTypes}`,
 	`&dir=${searchReq.dir && searchReq.dir.length !== 0 ? ['', ...searchReq.dir].join('/') : '/'}`,
 	`&limit=${searchReq.limit ? searchReq.limit : 10}`,
 	`&offset=${searchReq.offset ? searchReq.offset : 0}`].join('')

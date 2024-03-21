@@ -13,6 +13,7 @@ export interface Option {
 interface SelectorMultiProps {
   options: Option[];
   isMulti?: boolean;
+  defaultValue?: Option;
   onChange: (
     newValue: MultiValue<Option> | SingleValue<Option>,
     actionMeta: ActionMeta<Option>
@@ -23,12 +24,14 @@ export const SelectorMulti: FC<SelectorMultiProps> = ({
 	options,
 	isMulti,
 	onChange,
+	defaultValue,
 }) => {
 	return (
 		<Selector
 			options={options}
 			isMulti={isMulti}
 			onChange={onChange}
+			defaultValue={defaultValue}
 		></Selector>
 	);
 };

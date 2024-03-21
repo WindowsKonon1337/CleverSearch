@@ -17,21 +17,41 @@ import FilterSVG from '@icons/Filter.svg';
 import { useNavigate } from 'react-router-dom';
 import { transformToSearchRequestString } from '@api/transforms';
 
-interface SearchLineProps { }
+interface SearchLineProps {
+	searchValue: {
+		smartSearch: boolean;
+		fileType: fileTypes[];
+		query: string;
+		dir: string[];
+		disk: diskTypes[];
+	},
+	setSearchValue: React.Dispatch<React.SetStateAction<{
+		smartSearch: boolean;
+		fileType: fileTypes[];
+		query: string;
+		dir: string[];
+		disk: diskTypes[];
+	}>>,
+}
 
-export const SearchLine: FC<SearchLineProps> = () => {
+export const SearchLine: FC<SearchLineProps> = ({
+	searchValue, setSearchValue
+}) => {
 	const [isBoxOpen, setisBoxOpen] = useState(false);
-	const [searchValue, setsearchValue] = useState({
-		smartSearch: false,
-		fileType: ['all' as fileTypes],
-		query: '',
-		dir: [],
-		disk: ['all'] as diskTypes[],
-	});
 
 	const [search, response] = useSearchMutation({ fixedCacheKey: 'search' });
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	function mySearch(): void {
+		search(searchValue);
+		dispatch(newValues(searchValue));
+		dispatch(switchToSearch());
+		dispatch(changeDir({ dirs: [] }));
+
+		const url = transformToSearchRequestString({ ...searchValue, limit: 10, offset: 0 })
+		navigate(url)
+	}
 
 	return (
 		<div className="search-line">
@@ -43,17 +63,11 @@ export const SearchLine: FC<SearchLineProps> = () => {
 					<Input
 						onKeyDown={(e) => {
 							if (e.key.toLowerCase() === 'enter') {
-								search(searchValue);
-								dispatch(newValues(searchValue));
-								dispatch(switchToSearch());
-								dispatch(changeDir({ dirs: [] }));
-
-								const url = transformToSearchRequestString({ ...searchValue, limit: 10, offset: 0 })
-								navigate(url)
+								mySearch()
 							}
 						}}
 						onChange={(e) =>
-							setsearchValue({ ...searchValue, query: e.target.value })
+							setSearchValue({ ...searchValue, query: e.target.value })
 						}
 						disabled={response.isLoading}
 						placeholder={'Найдём любой файл'}
@@ -73,12 +87,11 @@ export const SearchLine: FC<SearchLineProps> = () => {
 			{isBoxOpen ? (
 				<div className="place-for-search-box">
 					<SearchBox
-						changeState={setsearchValue}
+						changeState={setSearchValue}
 						state={searchValue}
 						closeDrop={() => setisBoxOpen(false)}
 						search={() => {
-							dispatch(newValues(searchValue));
-							search(searchValue);
+							mySearch()
 						}}
 					></SearchBox>
 				</div>

@@ -1,6 +1,6 @@
 import { DiskType, diskImgSrc } from '@models/disk';
 import { switchToProcessed, switchToShow } from '@store/whatToShow';
-import { Button, Variants } from '@entities/button/Button';
+import { Button } from '@entities/button/Button';
 import { TextWithImg } from '@feature/textWithImg/textWithimg';
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ import DownloadSVG from '@icons/Download.svg';
 import CleverSVG from '@icons/disks/Disk.svg';
 import { useNavigate } from 'react-router-dom';
 import { transfromToShowRequestString } from '@api/transforms';
+import { debounce } from '@helpers/debounce'
 
 interface SidebarProps { }
 
@@ -73,19 +74,9 @@ export const Sidebar: FC<SidebarProps> = () => {
 			}
 		)
 	);
+
 	const params = useAppSelector((state) => state.searchRequest);
-
 	const [createDir] = useCreateDirMutation();
-
-	const debounce = (func: () => void, delay: number) => {
-		let debounceHandler: NodeJS.Timeout;
-		return function () {
-			clearTimeout(debounceHandler);
-			debounceHandler = setTimeout(() => {
-				func();
-			}, delay);
-		};
-	};
 
 	useEffect(() => {
 		if (isShow) {
@@ -112,10 +103,10 @@ export const Sidebar: FC<SidebarProps> = () => {
 					const debouncFunc = debounce(() => {
 						if (isSearch) {
 							search(params);
-						} else {
+						} else if (isShow) {
 							show({ limit: 10, offset: 0, disk: currentDisk, dir: dirs });
 						}
-					}, 100);
+					}, 300);
 					Array.from(files).forEach((file) => {
 						const formData = new FormData();
 
@@ -126,11 +117,11 @@ export const Sidebar: FC<SidebarProps> = () => {
 					});
 				}}
 				disabled={false}
-				variant={Variants.filled}
+				variant={'filled'}
 			></ButtonWithInput>
 			<Button
 				buttonText="Добавить папку"
-				variant={Variants.filled}
+				variant={'filled'}
 				clickHandler={() => {
 					const debounceFunc = debounce(() => {
 						if (isSearch) {
@@ -138,7 +129,7 @@ export const Sidebar: FC<SidebarProps> = () => {
 						} else {
 							show({ limit: 10, offset: 0, disk: currentDisk, dir: dirs });
 						}
-					}, 100);
+					}, 300);
 					createDir(dirs.concat('Папка'));
 					debounceFunc();
 				}}

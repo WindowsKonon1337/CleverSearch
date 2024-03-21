@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
 import './Button.scss';
 
-export enum Variants {
-  filled = 'filled',
-  not_filled = 'not-filled',
-}
+export type Variants = 'filled' | 'not-filled'
 
 interface ButtonProps {
   buttonText: string;
   clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   variant: Variants;
+  className?:string;
 }
 
 function getClassForButton(disabled: boolean, variant: Variants): string {
@@ -30,6 +28,7 @@ export const Button: FC<ButtonProps> = ({
 	buttonText,
 	disabled,
 	variant,
+	className,
 }) => {
 	if (disabled) disabled=false;
 	let clkHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -42,7 +41,7 @@ export const Button: FC<ButtonProps> = ({
 	return (
 		<button
 			disabled={disabled}
-			className={getClassForButton(disabled, variant)}
+			className={[className,getClassForButton(disabled, variant)].join(' ')}
 			onClick={clkHandler}
 		>
 			<p>{buttonText}</p>

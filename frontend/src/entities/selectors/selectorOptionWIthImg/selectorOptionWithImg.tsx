@@ -31,12 +31,14 @@ interface SelectorWithImgProps {
 		newValue: MultiValue<Option> | SingleValue<Option>,
 		actionMeta: ActionMeta<Option>
 	) => void;
+	defaultValue?: Option;
 }
 
 export const SelectorWithImg: FC<SelectorWithImgProps> = ({
 	options,
 	isMulti,
 	onChange,
+	defaultValue,
 }) => {
 	return (
 		<Selector
@@ -44,6 +46,7 @@ export const SelectorWithImg: FC<SelectorWithImgProps> = ({
 			isMulti={isMulti}
 			onChange={onChange}
 			components={{ Option: OptionComp }}
+			defaultValue={defaultValue}
 		></Selector>
 	);
 };

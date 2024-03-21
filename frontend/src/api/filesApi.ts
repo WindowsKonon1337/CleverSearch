@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Folder } from '@models/folder';
-import { fileFile } from '@models/searchParams';
+import { ShareRequest, ShareResponse, fileFile } from '@models/searchParams';
 
 export const filesApi = createApi({
 	reducerPath: 'filesApi',
@@ -34,6 +34,13 @@ export const filesApi = createApi({
 				method: 'POST',
 			}),
 		}),
+		getShareUrl: builder.mutation<ShareResponse, ShareRequest>({
+			query: (request: ShareRequest) => ({
+				url: '/dirs/share',
+				method: 'POST',
+				body: request
+			}),
+		}),
 	}),
 });
 
@@ -41,5 +48,6 @@ export const {
 	useDeleteFileMutation,
 	useGetFoldersMutation,
 	usePushFileMutation,
-	useCreateDirMutation
+	useCreateDirMutation,
+	useGetShareUrlMutation
 } = filesApi;

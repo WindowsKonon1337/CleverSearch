@@ -6,11 +6,12 @@ import { useDispatch } from 'react-redux';
 import { useDeleteFileMutation } from '@api/filesApi';
 import { changeDir, changeDisk } from '@store/currentDirectoryAndDisk';
 import { BreadCrumps } from '@entities/breadCrumps/breadCrumps';
-import { RenderFields } from '@feature/renderFields/renderFields';
+import { RenderFields } from '@widgets/renderFields/renderFields';
 import { useSearchParams } from 'react-router-dom';
 import { transformToShowParams } from '@models/searchParams';
 import { transfromToShowRequestString } from '@api/transforms';
 import { useNavigate } from 'react-router-dom';
+import { switchToShow } from '@store/whatToShow';
 
 
 interface ShowShowedFilesProps { }
@@ -37,9 +38,7 @@ export const ShowShowedFiles: FC<ShowShowedFilesProps> = () => {
         (state) => state.currentDirDisk
     );
 
-    useEffect(() => {
-        show({ limit: 10, offset: 0, disk: currentDisk, dir: dirs });
-    }, [dirs, currentDisk])
+    const { isShow } = useAppSelector(state => state.whatToShow)
 
     const [deleteFile] = useDeleteFileMutation();
     const dispatch = useDispatch();
@@ -51,6 +50,14 @@ export const ShowShowedFiles: FC<ShowShowedFilesProps> = () => {
         dispatch(changeDir({ dirs: params.dir }))
         dispatch(changeDisk(params.disk))
     }, [params])
+
+    useEffect(() => {
+        show({ limit: 10, offset: 0, disk: currentDisk, dir: dirs });
+    }, [dirs, currentDisk])
+
+    if (!isShow) {
+        dispatch(switchToShow())
+    }
 
     return (
         <div className="data-show">

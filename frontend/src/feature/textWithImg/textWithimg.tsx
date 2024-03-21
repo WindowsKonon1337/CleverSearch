@@ -3,6 +3,7 @@ import './textWithImg.scss';
 
 interface TextWithImgProps {
   text: string;
+  subText?:string;
   imgSrc: string;
   altImgText: string;
   className: string;
@@ -11,6 +12,7 @@ interface TextWithImgProps {
 
 export const TextWithImg: FC<TextWithImgProps> = ({
 	text,
+	subText,
 	imgSrc,
 	className,
 	onClick,
@@ -19,7 +21,10 @@ export const TextWithImg: FC<TextWithImgProps> = ({
 	return (
 		<div className={['text-with-img', className].join(' ')} onClick={onClick}>
 			<img className="text-image" src={imgSrc} alt={altImgText}></img>
-			<p className="text">{text}</p>
+			<div>
+				<p className="text">{text}</p>
+				{subText ? <p className="subText">{subText}</p> : null}
+			</div>
 		</div>
 	);
 };

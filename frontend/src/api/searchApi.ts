@@ -13,7 +13,6 @@ export const searchAPi = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: `${process.env.protocol}://${process.env.adress}/api/`,
 	}),
-
 	endpoints: (builder) => ({
 		// TODO limit offset
 		search: builder.mutation<SearchResponse, SearchParams>({

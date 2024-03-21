@@ -13,7 +13,9 @@ interface InputProps {
   className: string[];
   type: string;
   value: string;
+  multiple?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  ref?: React.MutableRefObject<HTMLInputElement>
 }
 
 export const Input: FC<InputProps> = ({
@@ -22,9 +24,11 @@ export const Input: FC<InputProps> = ({
 	disabled,
 	placeholder,
 	variant,
+	multiple,
 	type,
 	className,
 	value,
+	ref,
 }) => {
 	let changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	if (!disabled) {
@@ -35,9 +39,11 @@ export const Input: FC<InputProps> = ({
 
 	return (
 		<input
+		ref={ref}
 			onKeyDown={onKeyDown}
 			value={value}
 			type={type}
+			multiple={multiple}
 			placeholder={placeholder}
 			disabled={disabled}
 			className={[

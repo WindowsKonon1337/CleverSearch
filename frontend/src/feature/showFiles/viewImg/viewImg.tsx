@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-
+import './viewImg.scss'
 
 export interface ViewImgProps {
 	imgSrc: string,
@@ -8,7 +8,7 @@ export interface ViewImgProps {
 
 export const ViewImg: FC<ViewImgProps> = React.memo(function viewImg({ imgSrc, altText }: ViewImgProps) {
 	return <div className='view-img'>
-		<img src={imgSrc} alt={altText} />
+		<img className='modal-img' src={imgSrc} alt={altText} />
 	</div >
 });
 

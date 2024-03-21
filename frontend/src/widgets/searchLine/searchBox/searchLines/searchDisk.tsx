@@ -1,52 +1,10 @@
 import React, { FC } from 'react';
-import { MultiValue, SingleValue } from 'react-select';
-import { diskImgSrc } from '@models/disk';
-import { SearchParamsLocal, diskTypes } from '@models/searchParams';
+import { SearchParamsLocal } from '@models/searchParams';
 import {
-	Option,
 	SelectorWithImg,
 } from '@entities/selectors/selectorOptionWIthImg/selectorOptionWithImg';
 
-const getDisksToOptions = () => {
-	const keys = Array.from(diskImgSrc.keys());
-	const result: Option[] = Array.from(
-		keys.map((key) => {
-			return { label: key, value: key, imgSrc: diskImgSrc.get(key)?.src || '' };
-		})
-	);
-
-	if (result && result.length !== 0) {
-		return result;
-	}
-	return [{ label: '', value: '', imgSrc: '' }];
-};
-
-const diskVal = (
-	newVal: MultiValue<Option> | SingleValue<Option>
-): diskTypes[] => {
-	if ('length' in newVal) {
-		const diskValuesInString = newVal
-			.map((val) => val.value)
-			.filter((val) => val !== null) as diskTypes[];
-
-		let newDiskValuesInString;
-		if (!Array.isArray(diskValuesInString)) {
-			newDiskValuesInString = [diskValuesInString];
-		} else {
-			newDiskValuesInString = diskValuesInString;
-		}
-
-		return newDiskValuesInString as diskTypes[];
-	}
-	if (newVal) {
-		const diskType = newVal.value;
-		if (diskType) {
-			return [diskType] as diskTypes[];
-		}
-	}
-
-	return ['all'];
-};
+import { getDisksToOptions, diskVal, diskValueToOption } from '@models/disk'
 
 export interface SearchDiskLineProps {
 	changeState: React.Dispatch<
@@ -66,6 +24,7 @@ export const SearchDiskLine: FC<SearchDiskLineProps> = ({
 				options={getDisksToOptions()}
 				isMulti={true}
 				onChange={(newVal) => changeState({ ...state, disk: diskVal(newVal) })}
+				defaultValue={state.disk ? diskValueToOption(state.disk[0]) : null}
 			/>
 		</div>
 	);

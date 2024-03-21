@@ -1,18 +1,9 @@
 import { useGetFoldersMutation } from '@api/filesApi';
-import { SearchParamsLocal, fileFile } from '@models/searchParams';
+import { SearchParamsLocal } from '@models/searchParams';
 import { Option, SelectorAsync } from '@entities/selectors/selectorAsync/selectorAsync';
 import React, { FC } from 'react';
-import { MultiValue, SingleValue } from 'react-select';
 
-const transformToOptions = (folders: fileFile[]): Option[] => {
-	return folders.map((folder) => {
-		return {
-			label: String(folder.filename),
-			value: String(folder.filename),
-			color: 'black',
-		};
-	});
-};
+import {transformOptionsToDirs, transformToOptions} from '@models/disk'
 
 export interface SearchFolderLineProps {
 	changeState: React.Dispatch<
@@ -21,15 +12,7 @@ export interface SearchFolderLineProps {
 	state: SearchParamsLocal;
 }
 
-const transformOptionsToDirs = (
-	newVal: SingleValue<Option> | MultiValue<Option>
-): string[] => {
-	if ('length' in newVal) {
-		return newVal.map((val) => val.value);
-	}
-	if (newVal) return [newVal.value];
-	return [];
-};
+
 
 export const SearchFolderLine: FC<SearchFolderLineProps> = ({
 	changeState,

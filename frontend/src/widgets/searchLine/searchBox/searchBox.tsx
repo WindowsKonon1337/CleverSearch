@@ -1,11 +1,8 @@
 import React, { FC } from 'react';
 import { SearchParamsLocal, diskTypes, fileTypes } from '@models/searchParams';
-import { Button, Variants } from '@entities/button/Button';
-import { Checkbox } from '@entities/checkbox/Checkbox';
+import { Button } from '@entities/button/Button';
 import './searchBox.scss';
-import { SearchDiskLine } from './searchLines/searchDisk';
-import { SearchFileType } from './searchLines/searchFilteType';
-import { SearchFolderLine } from './searchLines/searchFolder';
+import { AllSearchLines } from './allSearchLines'
 
 // TODO make this type not structs
 interface SearchBoxProps {
@@ -37,32 +34,16 @@ export const SearchBox: FC<SearchBoxProps> = ({
 }) => {
 	return (
 		<div className="search-box">
-			<div className="line">
-				<p className="search-box__text">Умный поиск</p>
-				<Checkbox
-					isChecked={state.smartSearch}
-					disabled={false}
-					clickHandler={() =>
-						changeState({ ...state, smartSearch: !state.smartSearch })
-					}
-				/>
-			</div>
-
-			<SearchFolderLine
-				changeState={changeState}
-				state={state}
-			></SearchFolderLine>
-			<SearchDiskLine changeState={changeState} state={state}></SearchDiskLine>
-			<SearchFileType changeState={changeState} state={state}></SearchFileType>
+			<AllSearchLines changeState={changeState} closeDrop={closeDrop} search={search} state={state} />
 			<div className="buttons">
 				<Button
-					variant={Variants.not_filled}
+					variant={'not-filled'}
 					buttonText="Сбросить"
 					clickHandler={() => setToInitial(changeState, state)}
 					disabled={false}
 				></Button>
 				<Button
-					variant={Variants.not_filled}
+					variant={'not-filled'}
 					buttonText="Искать"
 					clickHandler={() => {
 						search();

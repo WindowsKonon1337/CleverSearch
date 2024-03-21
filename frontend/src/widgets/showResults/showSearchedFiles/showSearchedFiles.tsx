@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { useDeleteFileMutation } from '@api/filesApi';
 import { useSearchMutation } from '@api/searchApi';
 import { changeDir, changeDisk } from '@store/currentDirectoryAndDisk';
-import { RenderFields } from '@feature/renderFields/renderFields';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { RenderFields } from '@widgets/renderFields/renderFields';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { switchToSearch, switchToShow } from '@store/whatToShow';
 import { transfromToShowRequestString } from '@api/transforms';
 import { transformToSearchParams } from '@models/searchParams'
@@ -33,15 +33,13 @@ export const ShowSearchedFiles: FC<ShowSearchedFilesProps> = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate()
-    const location = useLocation();
-
     const urlParams = useSearchUrlParams()
 
     useEffect(() => {
         dispatch(switchToSearch())
         const params = transformToSearchParams(urlParams)
         search(params)
-    }, [location])
+    }, [])
 
     const paramsSearch = useAppSelector((state) => state.searchRequest);
 
