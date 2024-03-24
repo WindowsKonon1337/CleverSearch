@@ -12,6 +12,7 @@ import { Modal } from '@feature/modal/modal'
 import { ViewImg } from '@feature/showFiles/viewImg/viewImg';
 import './renderFields.scss'
 import { VideoPlayer } from '@feature/videoPlayer/videoPlayer'
+import { FileWithModal, renderReturns } from './fileWithModal'
 
 export interface RenderFieldsProps {
 	data: fileFile[],
@@ -23,11 +24,6 @@ export interface RenderFieldsProps {
 	openFolder: (dirToShow: string[]) => void,
 }
 
-interface renderReturns {
-	renderModal: () => React.ReactNode | null;
-	clickHandler: () => void;
-	imgSrc: string;
-}
 
 export const RenderFields: FC<RenderFieldsProps> = ({
 	data,
@@ -106,71 +102,63 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 	};
 
 	return (
-		<div>
+		<div key={'rendered-list'}>
 			{data.map((file) => {
-				const [isOpen, setOpen] = useState(false)
+				const getFileProps = (file: fileFile, isOpen: boolean, changeState: (isOpen: boolean) => void): renderReturns => {
+					let renderModal: () => React.ReactNode | null = () => null;
+					let clickHandler: () => void;
+					let iconSrc = '';
 
-				let renderModal: () => React.ReactNode | null = () => null;
-				let clickHandler: () => void;
-				let iconSrc = '';
+					if (file.is_dir) {
+						const props: renderReturns = getDirProps(file);
 
-				if (file.is_dir) {
-					const props: renderReturns = getDirProps(file);
+						iconSrc = props.imgSrc;
+						clickHandler = props.clickHandler
+						renderModal = props.renderModal
+					} else {
+						let props: renderReturns;
 
-					iconSrc = props.imgSrc;
-					clickHandler = props.clickHandler
-					renderModal = props.renderModal
-				} else {
-					let props: renderReturns;
+						switch (file.file_type) {
+							case 'img':
+								props = getImageProps(file, isOpen, changeState);
 
-					switch (file.file_type) {
-						case 'img':
-							props = getImageProps(file, isOpen, (whatToState) => setOpen(whatToState));
+								iconSrc = props.imgSrc
+								clickHandler = props.clickHandler
+								renderModal = props.renderModal
+								break;
+							case 'text':
+								props = getPdfProps(file, isOpen, changeState);
 
-							iconSrc = props.imgSrc
-							clickHandler = props.clickHandler
-							renderModal = props.renderModal
-							break;
-						case 'text':
-							props = getPdfProps(file, isOpen, (whatToState) => setOpen(whatToState));
+								iconSrc = props.imgSrc
+								clickHandler = props.clickHandler
+								renderModal = props.renderModal
+								break;
+							case 'video':
+							case 'audio':
+								props = getVideoProps(file, isOpen, changeState);
 
-							iconSrc = props.imgSrc
-							clickHandler = props.clickHandler
-							renderModal = props.renderModal
-							break;
-						case 'video':
-						case 'audio':
-							props = getVideoProps(file, isOpen, (whatToState) => setOpen(whatToState));
+								iconSrc = props.imgSrc
+								clickHandler = props.clickHandler
+								renderModal = props.renderModal
+								break;
 
-							iconSrc = props.imgSrc
-							clickHandler = props.clickHandler
-							renderModal = props.renderModal
-							break;
-
-						default:
-							iconSrc = imageIconPath;
+							default:
+								iconSrc = imageIconPath;
 
 
+						}
+					}
+					return {
+						clickHandler, imgSrc: iconSrc, renderModal
 					}
 				}
 
-				const splitPath = file.path.split('/')
-				return (
-					<>
-						<FileShow
-							key={file.id}
-							iconSrc={iconSrc}
-							altText={file.is_dir ? 'folder' : 'file'}
-							filename={file.is_dir ? splitPath[splitPath.length - 1] : file.filename}
-							date={file.date}
-							size={file.size}
-							onDelete={() => deleteFile(file.path)}
-							onClick={() => { setOpen(true); clickHandler() }}
-							dirPath={file.is_dir ? file.path : ''}
-						></FileShow>
-						{renderModal()}
-					</>
-				);
+				return <FileWithModal
+					key={file.id}
+					file={file}
+					deleteFile={(filePath) => deleteFile(filePath)}
+					getFileProps={getFileProps}
+				/>
 			}
 			)}
 		</div>
