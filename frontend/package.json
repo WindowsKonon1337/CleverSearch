@@ -59,6 +59,7 @@
     "react-virtualized": "^9.22.5",
     "react-virtualized-auto-sizer": "^1.0.24",
     "react-window": "^1.8.10",
+    "screenfull": "^6.0.2",
     "use-resize-observer": "^9.1.0"
   }
 }
