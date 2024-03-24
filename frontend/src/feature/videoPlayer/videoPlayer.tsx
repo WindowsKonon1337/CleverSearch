@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { FC, useState, useRef } from 'react';
 
 // TODO make import with minimal support for our links 
 // https://github.com/cookpete/react-player?tab=readme-ov-file#usage
@@ -12,8 +12,8 @@ import './videoPlayer.scss'
 
 interface VideoPlayerProps {
 	url: string,
-	time?: number,
-	duration?: number,
+	duration: number,
+	start_time?: number,
 }
 
 interface VideoPlayerState {
@@ -34,7 +34,7 @@ interface VideoPlayerState {
 
 export const VideoPlayer: FC<VideoPlayerProps> = ({
 	url,
-	time,
+	start_time,
 	duration
 }) => {
 	const player = useRef<ReactPlayer>(null)
@@ -119,7 +119,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 				onDuration={handleDuration}
 				onReady={(pl) => {
 					if (firstTime) {
-						pl.seekTo(time)
+						pl.seekTo(start_time || 0)
 						setFirstTime(false)
 					}
 				}}
@@ -130,7 +130,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 				currentTime={state.played}
 				maxTime={state.duration}
 				currentVolume={state.volume}
-				setTime={(time: number) => player.current.seekTo(time)}
+				setTime={(time: number) => player.current?.seekTo(time)}
 				start={() => setState({ ...state, playing: true })}
 				stop={() => setState({ ...state, playing: false })}
 				changeSpeed={(desiredSpeed) => setState({ ...state, playbackRate: desiredSpeed })}

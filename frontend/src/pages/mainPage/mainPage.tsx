@@ -7,8 +7,6 @@ import './mainPage.scss'
 import { diskTypes, fileTypes, transformToSearchParams } from '@models/searchParams';
 import { useSearchParams } from 'react-router-dom';
 
-import { VideoPlayer } from '@entities/videoPlayer/videoPlayer'
-
 // TODO вынести в другой файл
 const useSearchUrlParams = () => {
 	const [searchParams] = useSearchParams();

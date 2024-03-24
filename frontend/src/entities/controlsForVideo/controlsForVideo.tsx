@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState, useRef } from 'react';
 
 // TODO make import with minimal support for our links 
 // https://github.com/cookpete/react-player?tab=readme-ov-file#usage
-import ReactPlayer from 'react-player'
 import './controlsForVideo.scss'
 
 import PlayImg from '@icons/player/Play.svg'

@@ -60,19 +60,28 @@ export interface fileFile {
   id: string;
   filename: string;
   user_id: string;
+  email: string,
   path: string;
-  is_shared: boolean;
+  bucket: string,
+  is_dir: boolean;
+  file_type: fileTypes,
+  size: string;
+  'content_type': string;
+  extension: string;
+  status: string;
+  is_shared: boolean,
+  share_access: string,
+  share_link: string,
+  date: string;
+  link: string,
   shared: {
     author_id: string;
     access: typeof sharedType;
     is_owner: boolean;
   };
-  date: string;
-  is_dir: boolean;
-  size: string;
-  'content_type': string;
-  status: string;
-  link: string,
+  duration?: number,
+  start_time?: number,
+  page_number?: number,
 }
 
 export interface SearchResponse {
