@@ -81,7 +81,7 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 		const renderModal = () => {
 			return (
 				<Modal className={'modal__pdf-show'} isOpen={state} closeModal={() => changeState(false)}>
-					<ViewPDF pdfURL={file.link} openPageInPDF={0} searchString={''}></ViewPDF>
+					<ViewPDF pdfURL={file.link} openPageInPDF={file.page_number || 0} searchString={''}></ViewPDF>
 				</Modal>
 			)
 		}
@@ -152,26 +152,27 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 
 
 					}
-
-
-					return (
-						<>
-							<FileShow
-								key={file.id}
-								iconSrc={iconSrc}
-								altText={file.is_dir ? 'folder' : 'file'}
-								filename={file.is_dir ? file.path.split('/').pop() : file.filename}
-								date={file.date}
-								size={file.size}
-								onDelete={() => deleteFile(file.path)}
-								onClick={() => { setOpen(true); clickHandler() }}
-								dirPath={file.is_dir ? file.path : ''}
-							></FileShow>
-							{renderModal()}
-						</>
-					);
 				}
-			})}
+
+				const splitPath = file.path.split('/')
+				return (
+					<>
+						<FileShow
+							key={file.id}
+							iconSrc={iconSrc}
+							altText={file.is_dir ? 'folder' : 'file'}
+							filename={file.is_dir ? splitPath[splitPath.length - 1] : file.filename}
+							date={file.date}
+							size={file.size}
+							onDelete={() => deleteFile(file.path)}
+							onClick={() => { setOpen(true); clickHandler() }}
+							dirPath={file.is_dir ? file.path : ''}
+						></FileShow>
+						{renderModal()}
+					</>
+				);
+			}
+			)}
 		</div>
 	);
 };

@@ -12,7 +12,7 @@ import {
 	Option
 } from '@entities/selectors/selectorOptionWIthImg/selectorOptionWithImg';
 import { MultiValue, SingleValue } from 'react-select';
-import { diskTypes, fileFile, fileTypes, isFileType } from './searchParams';
+import { SearchResponse, diskTypes, fileFile, fileTypes, isFileType } from './searchParams';
 
 export interface DiskType {
 	src: string;
@@ -223,12 +223,12 @@ export const transformOptionsToDirs = (
 	return [];
 };
 
-export const transformToOptions = (folders: fileFile[]): AsyncOption[] => {
-	return folders.map((folder) => {
+export const transformToOptions = (folders: SearchResponse): MultiOption[] => {
+	return folders.body.map((folder) => {
+		const splitPath = folder.path.split('/')
 		return {
-			label: String(folder.filename),
-			value: String(folder.filename),
-			color: 'black',
+			label: String(splitPath[splitPath.length - 1]),
+			value: String(folder.path),
 		};
 	});
 };

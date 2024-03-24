@@ -26,6 +26,11 @@ export interface SearchParamsLocal {
   query: string;
   dir?: string[];
   disk?: diskTypes[];
+  sharedReq?: boolean,
+  dirsReq?: boolean,
+  filesReq?: boolean,
+  nestingReq?: boolean,
+  personalReq?: boolean,
 }
 
 export const transformToSearchParams = (obj: {
@@ -86,6 +91,7 @@ export interface fileFile {
 
 export interface SearchResponse {
   status: number;
+  message: string;
   body: fileFile[];
 }
 
@@ -114,6 +120,11 @@ export interface ShowParams {
   fileType?: fileTypes[];
   dir?: string[];
   disk?: diskTypes;
+  sharedReq?: boolean,
+  dirsReq?: boolean,
+  filesReq?: boolean,
+  nestingReq?: boolean,
+  personalReq?: boolean,
 }
 
 export interface ShowResponse {
