@@ -131,12 +131,31 @@ export interface ShowResponse {
   body: fileFile[];
 }
 
+export interface SharedUUIDResponse {
+  body: fileFile
+}
+
 export interface DiskSearch {
   disk: diskTypes;
   dir: string;
 }
 
-export type AccessRights = 'reader' | 'writer'
+export type AccessRights = 'reader' | 'writer' | ''
+
+export const isAccessRights = (stringToCheck: string): boolean => {
+  return stringToCheck === 'reader' || stringToCheck === 'writer'
+}
+
+export const getAccessRights = (stringToTransfrom: string): AccessRights => {
+  switch (stringToTransfrom) {
+    case 'reader':
+      return 'reader';
+    case 'writer':
+      return 'writer'
+    default:
+      return 'writer'
+  }
+}
 
 export interface ShareRequest {
   dir: string;

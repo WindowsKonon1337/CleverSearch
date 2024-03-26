@@ -1,5 +1,5 @@
 import { DiskType, diskImgSrc } from '@models/disk';
-import { switchToProcessed, switchToShow } from '@store/whatToShow';
+import { switchToProcessed, switchToShared, switchToShow } from '@store/whatToShow';
 import { TextWithImg } from '@feature/textWithImg/textWithimg';
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -50,7 +50,7 @@ export const Sidebar: FC<SidebarProps> = () => {
 		Array.from(diskImgSrc.keys())[4]
 	);
 
-	const { isSearch, isShow, isProccessed } = useAppSelector((state) => state.whatToShow);
+	const { isSearch, isShow, isProccessed, isShared } = useAppSelector((state) => state.whatToShow);
 	const { dirs, currentDisk } = useAppSelector((state) => state.currentDirDisk);
 	const dispatch = useDispatch();
 	const [search] = useSearchMutation({ fixedCacheKey: 'search' });
@@ -151,6 +151,17 @@ export const Sidebar: FC<SidebarProps> = () => {
 						dispatch(switchToProcessed());
 						dispatch(changeDisk('all'))
 						navigate('/processed')
+					}}
+				/>
+				<TextWithImg
+					text="Общие"
+					className={['shared', isShared ? 'selected' : ''].join(' ')}
+					imgSrc={DownloadSVG} // TODO
+					altImgText="Картинка с двумя людьми"
+					onClick={() => {
+						dispatch(switchToShared())
+						dispatch(changeDisk('all'))
+						navigate('/shared')
 					}}
 				/>
 			</div>

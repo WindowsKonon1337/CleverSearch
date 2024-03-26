@@ -39,6 +39,19 @@ export const Modal: FC<ModalProps> = ({
         };
     }, [ref]);
 
+    useEffect(() => {
+        function handleEsc(event: KeyboardEvent) {
+            if (event.key.toLowerCase() === 'escape') {
+                closeModal()
+            }
+        }
+        document.addEventListener('keydown', handleEsc);
+
+        return () => {
+            document.removeEventListener('keydown', handleEsc);
+        };
+    }, [ref]);
+
 
     return ReactDOM.createPortal(
         <dialog

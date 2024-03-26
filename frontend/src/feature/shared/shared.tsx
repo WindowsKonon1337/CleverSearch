@@ -62,7 +62,7 @@ export const Shared: FC<SharedProps> = ({
                 <p>Ссылка:</p>
                 <p onClick={() => {
                     setCopied()
-                    navigator.clipboard.writeText('https://localhost:8080' + resp.data.body.share_link)
+                    navigator.clipboard.writeText('http://localhost:8080' + resp.data.body.share_link)
                 }}>{resp.data.body.share_link}</p>
                 {isCopied ? <div style={{ position: 'absolute' }}>Copied!</div> : null}
             </div>

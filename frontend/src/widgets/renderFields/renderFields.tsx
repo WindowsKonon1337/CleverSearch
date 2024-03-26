@@ -1,4 +1,4 @@
-import { fileFile } from '@models/searchParams';
+import { AccessRights, fileFile, getAccessRights, isAccessRights } from '@models/searchParams';
 import { SerializedError, UnknownAction } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { changeDir } from '@store/currentDirectoryAndDisk';
@@ -13,6 +13,7 @@ import { ViewImg } from '@feature/showFiles/viewImg/viewImg';
 import './renderFields.scss'
 import { VideoPlayer } from '@feature/videoPlayer/videoPlayer'
 import { FileWithModal, renderReturns } from './fileWithModal'
+import { filesApi } from '@api/filesApi';
 
 export interface RenderFieldsProps {
 	data: fileFile[],
@@ -20,7 +21,7 @@ export interface RenderFieldsProps {
 	isError: boolean,
 	isLoading: boolean,
 	dispatch: Dispatch<UnknownAction>,
-	deleteFile: (fileName: string) => void,
+	deleteFile: (fileName: string, accessRights: AccessRights) => void,
 	openFolder: (dirToShow: string[]) => void,
 }
 
@@ -156,7 +157,7 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 				return <FileWithModal
 					key={file.id}
 					file={file}
-					deleteFile={(filePath) => deleteFile(filePath)}
+					deleteFile={(filePath) => deleteFile(filePath, getAccessRights(file.share_access))}
 					getFileProps={getFileProps}
 				/>
 			}

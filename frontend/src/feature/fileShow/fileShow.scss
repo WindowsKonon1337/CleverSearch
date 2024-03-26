@@ -29,3 +29,28 @@
   width: 2rem;
   height: 2rem;
 }
+
+.container-file-info {
+  display: flex;
+  flex-direction: row;
+  
+  gap: var(--big-padding);
+  overflow: hidden;
+  
+  flex-grow: 1;
+}
+
+.additional-functions-file {
+  display: flex;
+  flex-direction: row;
+  
+  gap: var(--big-padding);
+
+  flex-grow: 1;
+}
+
+.additional-functions-file  .size {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}

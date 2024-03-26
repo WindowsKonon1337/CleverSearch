@@ -30,6 +30,14 @@ export const FileWithModal: FC<FileWithModalProps> = ({
 	const iconSrc = props.imgSrc;
 
 	const splitPath = file.path.split('/')
+	const dirPath = file.is_dir ? file.path : ''
+
+	const canBeDeleted = (file: fileFile): boolean => {
+		return !file.is_shared
+			|| file.is_shared && file.share_access === 'writer'
+
+	}
+
 	return (
 		<>
 			<FileShow
@@ -41,7 +49,11 @@ export const FileWithModal: FC<FileWithModalProps> = ({
 				size={file.size}
 				onDelete={() => deleteFile(file.path)}
 				onClick={() => { setOpen(true); clickHandler() }}
-				dirPath={file.is_dir ? file.path : ''}
+				dirPath={dirPath}
+				config={{
+					isDelete: canBeDeleted(file),
+					isShare: dirPath && dirPath.split('/').length == 2
+				}}
 			></FileShow>
 			{renderModal()}
 		</>

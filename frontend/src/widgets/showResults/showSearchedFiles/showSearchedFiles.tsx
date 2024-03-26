@@ -10,6 +10,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { switchToSearch, switchToShow } from '@store/whatToShow';
 import { transfromToShowRequestString } from '@api/transforms';
 import { transformToSearchParams } from '@models/searchParams'
+import '../show.scss'
+import { BreadCrumps } from '@entities/breadCrumps/breadCrumps';
 
 interface ShowSearchedFilesProps { }
 
@@ -45,16 +47,15 @@ export const ShowSearchedFiles: FC<ShowSearchedFilesProps> = () => {
 
     return (
         <div className="data-show" >
+            <BreadCrumps
+                dirs={['Search']}
+                onClick={() => {
+                    navigate(-1)
+                }}
+                reactOnElements={ }
+            />
             <div className="data-show__header">
                 <p>Результаты поиска:</p>
-                <div
-                    style={{ color: 'var(--main-color-500)' }}
-                    onClick={() =>
-                        navigate(-1)
-                    }
-                >
-                    Назад
-                </div>
             </div>
             <RenderFields
                 data={data?.body}

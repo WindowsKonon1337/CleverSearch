@@ -28,3 +28,16 @@ export const transformToSearchRequestString = (searchReq: SearchParams): string 
 	`&personal_required=${searchReq.personalReq === undefined ? true : searchReq.personalReq}`
 	].join('')
 }
+
+export const transfromToSharedRequestParams = (showReq: ShowParams): string => {
+	return [`?limit=${showReq.limit}`,
+	`&offset=${showReq.offset}`,
+	`&disk=${showReq.disk ? showReq.disk : 'all'}`,
+	`&file_type=${showReq.fileType ? showReq.fileType.join(',') : 'all' as fileTypes}`,
+	`&dir=${showReq.dir && showReq.dir.length !== 0 ? ['', ...showReq.dir].join('/') : '/'}`,
+	`&first_nesting=${showReq.nestingReq === undefined ? true : showReq.nestingReq}`,
+	`&dirs_required=${showReq.dirsReq === undefined ? true : showReq.dirsReq}`,
+	`&files_required=${showReq.filesReq === undefined ? true : showReq.filesReq}`,
+		'&shared_required=true',
+		'&personal_required=false'].join('')
+}
