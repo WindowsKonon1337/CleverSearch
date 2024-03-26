@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 // TODO make import with minimal support for our links 
 // https://github.com/cookpete/react-player?tab=readme-ov-file#usage
@@ -10,6 +10,7 @@ import BackwardImg from '@icons/player/Backward.svg'
 import ForwardImg from '@icons/player/Forward.svg'
 import FullscreenImg from '@icons/player/FullScreen.svg'
 import VolumeLow from '@icons/player/Volume low.svg'
+import { DropDown } from '@entities/dropDown/dropDown';
 
 interface ControlsForVideoProps {
 	currentTime: number,
@@ -50,6 +51,7 @@ export const ControlsForVideo: FC<ControlsForVideoProps> = ({
 		return 0
 	}
 
+	const [isOpenVolume, setOpenVolume] = useState(false);
 	return (
 		<div className='controls-container'>
 			<div className='progress-bar-container' style={{ position: 'relative' }}>
@@ -95,10 +97,26 @@ export const ControlsForVideo: FC<ControlsForVideoProps> = ({
 					<p onClick={() => changeSpeed(2)}>x2</p>
 				</div>
 				<div className='volume-container'>
-					< img className='volume-img contorl-img'
-						src={VolumeLow}
-						alt={'Volume-low'}
-						onClick={() => console.log('VolumeDropdown')  /**TODO open dropdown with volume */} />
+					<DropDown
+						variants='up'
+						onClick={() => setOpenVolume(true)}
+						close={() => setOpenVolume(false)}
+						isOpen={isOpenVolume}
+						classForDropdownBody='volume-control'
+						mainElement={< img className='volume-img contorl-img'
+							src={VolumeLow}
+							alt={'Volume-low'}
+							onClick={() => console.log('VolumeDropdown')  /**TODO open dropdown with volume */} />}
+					>
+						<input
+							type='range'
+							value={currentVolume}
+							max={1}
+							min={0}
+							step={0.01}
+							onChange={(e) => setVolume(Number(e.target.value))}
+						/>
+					</DropDown>
 				</div>
 				<div className='fullscreen-container'>
 					< img className='fullscreen-img contorl-img' src={FullscreenImg} alt={'Fullscreen'} onClick={toggleFullScreen} />

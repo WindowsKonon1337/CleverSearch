@@ -10,6 +10,8 @@ interface DropDownProps {
 	close: () => void,
 	onClick: () => void,
 	mainElement: React.ReactNode,
+	classForDropdownBody?: string,
+	variants?: WhereToPlace,
 }
 
 export const DropDown: FC<DropDownProps> = ({
@@ -18,9 +20,12 @@ export const DropDown: FC<DropDownProps> = ({
 	close,
 	onClick,
 	mainElement,
+	classForDropdownBody,
+	variants
 }) => {
 	const dropDownRef = useRef<HTMLDivElement>(null)
 	const [displayElements, setdisplayElements] = useState(false);
+	const [closeFunc, setCloseFunc] = useState(null as NodeJS.Timeout);
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -48,17 +53,20 @@ export const DropDown: FC<DropDownProps> = ({
 
 	useEffect(() => {
 		if (!isOpen) {
-			setTimeout(() => {
+			setCloseFunc(setTimeout(() => {
 				setdisplayElements(isOpen)
-			}, 150)
+			}, 150))
 			return;
 		}
+		clearTimeout(closeFunc)
 		setdisplayElements(isOpen)
 	}, [isOpen])
 
+	if (variants === undefined || variants === null) variants = 'down'
+
 	return (
 		// TODO remove css inline
-		<div style={{ position: 'relative', height: 'fit-content' }}>
+		<div style={{ position: 'relative', height: 'fit-content', cursor: 'pointer' }}>
 			<div className='dropdown-menu'
 				onClick={(e) => {
 					e.stopPropagation();
@@ -66,7 +74,10 @@ export const DropDown: FC<DropDownProps> = ({
 				}}>
 				{mainElement}
 			</div>
-			<div ref={dropDownRef} className={['dropdown', isOpen ? '' : 'dropdown-hide'].join(' ')}>
+			<div
+				ref={dropDownRef}
+				className={['dropdown', classForDropdownBody, `dropdown-${variants}` isOpen ? '' : 'dropdown-hide'].join(' ')}
+			>
 				{displayElements ? <div>{children}</div> : null}
 			</div>
 		</div>

@@ -28,3 +28,8 @@
 	display: flex;
 	justify-content: center;
 }
+
+.volume-control {
+	transform: rotate(-90deg);
+  	transform-origin: left 0;
+}
