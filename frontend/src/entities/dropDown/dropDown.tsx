@@ -76,7 +76,7 @@ export const DropDown: FC<DropDownProps> = ({
 			</div>
 			<div
 				ref={dropDownRef}
-				className={['dropdown', classForDropdownBody, `dropdown-${variants}` isOpen ? '' : 'dropdown-hide'].join(' ')}
+				className={['dropdown', classForDropdownBody, `dropdown-${variants}`, isOpen ? '' : 'dropdown-hide'].join(' ')}
 			>
 				{displayElements ? <div>{children}</div> : null}
 			</div>
