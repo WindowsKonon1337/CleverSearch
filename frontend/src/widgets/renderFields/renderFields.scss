@@ -4,7 +4,18 @@
 }
 
 .modal__pdf-show {
+    height: 100%;
     width: 90%;
     display: flex;
     flex-direction: column;
+}
+
+.modal-body__pdf {
+    height: 100%;
+}
+
+.show-all-files {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
 }

@@ -77,7 +77,12 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 	const getPdfProps = (file: fileFile, state: boolean, changeState: (whatToState: boolean) => void): renderReturns => {
 		const renderModal = () => {
 			return (
-				<Modal className={'modal__pdf-show'} isOpen={state} closeModal={() => changeState(false)}>
+				<Modal
+					className={'modal__pdf-show'}
+					isOpen={state}
+					closeModal={() => changeState(false)}
+					bodyClassName={'modal-body__pdf'}
+				>
 					<ViewPDF pdfURL={file.link} openPageInPDF={file.page_number || 0} searchString={''}></ViewPDF>
 				</Modal>
 			)
@@ -103,7 +108,7 @@ export const RenderFields: FC<RenderFieldsProps> = ({
 	};
 
 	return (
-		<div key={'rendered-list'}>
+		<div key={'rendered-list'} className='show-all-files'>
 			{data.map((file) => {
 				const getFileProps = (file: fileFile, isOpen: boolean, changeState: (isOpen: boolean) => void): renderReturns => {
 					let renderModal: () => React.ReactNode | null = () => null;
