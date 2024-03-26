@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { FC } from 'react';
 
 // TODO make import with minimal support for our links 
 // https://github.com/cookpete/react-player?tab=readme-ov-file#usage
@@ -45,7 +45,7 @@ export const ControlsForVideo: FC<ControlsForVideoProps> = ({
 
 	const getValueForInput = (duration: number, current: number): number => {
 		if (duration !== 0) {
-			return currentTime / maxTime * 0.999999
+			return current / maxTime * 0.999999
 		}
 		return 0
 	}

@@ -48,7 +48,7 @@ export const FileWithModal: FC<FileWithModalProps> = ({
 				date={file.date}
 				size={file.size}
 				onDelete={() => deleteFile(file.path)}
-				onClick={() => { setOpen(true); clickHandler() }}
+				onClick={() => { console.log('Modal close'); setOpen(true); clickHandler() }}
 				dirPath={dirPath}
 				config={{
 					isDelete: canBeDeleted(file),

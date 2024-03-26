@@ -22,7 +22,6 @@ const useShowParams = () => {
 
         const result: Record<string, string> = {};
         params.forEach((value, key) => {
-            console.log(value, key)
             result[key] = value;
         });
         return result;

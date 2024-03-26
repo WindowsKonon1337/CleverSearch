@@ -30,7 +30,9 @@ export const Modal: FC<ModalProps> = ({
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (ref.current && (ref.current === event.target || !ref.current.contains(event.target as Node & EventTarget))) {
+            if (ref.current && (ref.current === event.target
+                || !ref.current.contains(event.target as Node & EventTarget))
+            ) {
                 closeModal()
             }
         }

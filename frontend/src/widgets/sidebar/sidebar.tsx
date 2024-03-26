@@ -137,12 +137,6 @@ export const Sidebar: FC<SidebarProps> = () => {
 			</div>
 			<div className="under-disks">
 				<TextWithImg
-					text="Загружаются"
-					className="downloading"
-					imgSrc={DownloadSVG}
-					altImgText="Загрузка"
-				/>
-				<TextWithImg
 					text="Обрабатываются"
 					className={['text-with-img', 'work-in-progress', isProccessed ? 'selected' : ''].join(' ')}
 					imgSrc={RobotSVG}
