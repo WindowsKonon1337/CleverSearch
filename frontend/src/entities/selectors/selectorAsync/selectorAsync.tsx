@@ -1,11 +1,8 @@
 import React, { FC, useState } from 'react';
-import { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import { MultiValue, SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-export interface Option {
-	label: string;
-	value: string;
-}
+import { Option } from '@models/additional'
 
 interface SelectorAsyncProps {
 	loadFunction: (inputValue: string) => Promise<Option[]>;

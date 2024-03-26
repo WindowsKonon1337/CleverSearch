@@ -63,10 +63,6 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 		setState({ ...state, playbackRate: parseFloat(speed) })
 	}
 
-	const handleTogglePIP = () => {
-		setState({ ...state, pip: !state.pip })
-	}
-
 	const handlePlay = () => {
 		setState({ ...state, playing: true })
 	}
@@ -80,10 +76,6 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 		if (!state.seeking) {
 			setState({ ...state, played: passedState.playedSeconds })
 		}
-	}
-
-	const handleEnded = () => {
-		setState({ ...state, playing: state.loop })
 	}
 
 	const handleDuration = (duration: number) => {

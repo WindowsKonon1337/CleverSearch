@@ -17,7 +17,7 @@ interface ShowSearchedFilesProps { }
 
 const useSearchUrlParams = () => {
     const [searchParams] = useSearchParams();
-    const searchParamsToObject = (params) => {
+    const searchParamsToObject = (params: URLSearchParams) => {
         const result: Record<string, string> = {};
         params.forEach((value, key) => {
             result[key] = value;
@@ -52,7 +52,7 @@ export const ShowSearchedFiles: FC<ShowSearchedFilesProps> = () => {
                 onClick={() => {
                     navigate(-1)
                 }}
-                reactOnElements={ }
+                reactOnElements={[]}
             />
             <div className="data-show__header">
                 <p>Результаты поиска:</p>

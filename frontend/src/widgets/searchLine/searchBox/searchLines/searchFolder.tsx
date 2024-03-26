@@ -1,10 +1,10 @@
 import { useGetFoldersMutation } from '@api/filesApi';
 import { SearchParamsLocal } from '@models/searchParams';
-import { Option, SelectorAsync } from '@entities/selectors/selectorAsync/selectorAsync';
+import { SelectorAsync } from '@entities/selectors/selectorAsync/selectorAsync';
 import React, { FC } from 'react';
+import { Option } from '@models/additional'
 
 import { transformOptionsToDirs, transformToOptions } from '@models/disk'
-import { stat } from 'fs';
 
 export interface SearchFolderLineProps {
 	changeState: (React.Dispatch<

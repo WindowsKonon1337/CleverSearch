@@ -1,19 +1,17 @@
-import { AccessRights, fileFile, getAccessRights, isAccessRights } from '@models/searchParams';
+import { Modal } from '@feature/modal/modal';
+import { ViewImg } from '@feature/showFiles/viewImg/viewImg';
+import { ViewPDF } from '@feature/showFiles/viewPDF/viewPDF';
+import { VideoPlayer } from '@feature/videoPlayer/videoPlayer';
+import documentIconPath from '@icons/files/Book.svg';
+import folderIconPath from '@icons/files/Folder.svg';
+import imageIconPath from '@icons/files/image.svg';
+import { AccessRights, fileFile, getAccessRights } from '@models/searchParams';
 import { SerializedError, UnknownAction } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { changeDir } from '@store/currentDirectoryAndDisk';
-import { FileShow } from '@feature/fileShow/fileShow';
-import React, { Dispatch, FC, useState } from 'react';
-import folderIconPath from '@icons/files/Folder.svg';
-import documentIconPath from '@icons/files/Book.svg';
-import imageIconPath from '@icons/files/image.svg';
-import { ViewPDF } from '@feature/showFiles/viewPDF/viewPDF';
-import { Modal } from '@feature/modal/modal'
-import { ViewImg } from '@feature/showFiles/viewImg/viewImg';
-import './renderFields.scss'
-import { VideoPlayer } from '@feature/videoPlayer/videoPlayer'
-import { FileWithModal, renderReturns } from './fileWithModal'
-import { filesApi } from '@api/filesApi';
+import React, { Dispatch, FC } from 'react';
+import { FileWithModal, renderReturns } from './fileWithModal';
+import './renderFields.scss';
 
 export interface RenderFieldsProps {
 	data: fileFile[],

@@ -18,9 +18,11 @@ interface ShowShowedFilesProps { }
 
 const useShowParams = () => {
     const [searchParams] = useSearchParams();
-    const searchParamsToObject = (params) => {
+    const searchParamsToObject = (params: URLSearchParams) => {
+
         const result: Record<string, string> = {};
         params.forEach((value, key) => {
+            console.log(value, key)
             result[key] = value;
         });
         return result;

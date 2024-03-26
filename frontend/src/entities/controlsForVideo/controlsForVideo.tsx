@@ -95,7 +95,10 @@ export const ControlsForVideo: FC<ControlsForVideoProps> = ({
 					<p onClick={() => changeSpeed(2)}>x2</p>
 				</div>
 				<div className='volume-container'>
-					< img className='volume-img contorl-img' src={VolumeLow} alt={'Volume-low'} onClick={() => /**TODO open dropdown with volume */} />
+					< img className='volume-img contorl-img'
+						src={VolumeLow}
+						alt={'Volume-low'}
+						onClick={() => console.log('VolumeDropdown')  /**TODO open dropdown with volume */} />
 				</div>
 				<div className='fullscreen-container'>
 					< img className='fullscreen-img contorl-img' src={FullscreenImg} alt={'Fullscreen'} onClick={toggleFullScreen} />

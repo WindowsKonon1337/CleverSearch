@@ -2,7 +2,8 @@ import React, { FC, useState } from 'react';
 import { Input } from '@entities/input/input';
 import { Button } from '@entities/button/button'
 import { useGetShareUrlMutation } from '@api/filesApi';
-import { SelectorMulti, Option } from '@entities/selectors/selectorMulti/selectorMulti';
+import { SelectorMulti } from '@entities/selectors/selectorMulti/selectorMulti';
+import { Option } from '@models/additional'
 import { AccessRights } from '@models/searchParams';
 import { MultiValue } from 'react-select';
 
@@ -55,7 +56,7 @@ export const Shared: FC<SharedProps> = ({
             ></Input>
             <div>
                 {emails.map((val) => {
-                    return <div>{val}</div>
+                    return <div key={val}>{val}</div>
                 })}
             </div>
             {resp.data ? <div>

@@ -2,22 +2,22 @@ import { useAppSelector } from '@store/store';
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useDeleteFileMutation } from '@api/filesApi';
-import { useSearchMutation, useShowSharedMutation } from '@api/searchApi';
+import { useShowSharedMutation } from '@api/searchApi';
+import { transfromToSharedRequestParams } from '@api/transforms';
+import { BreadCrumps } from '@entities/breadCrumps/breadCrumps';
+import { transformToShowParams } from '@models/searchParams';
 import { changeDir, changeDisk } from '@store/currentDirectoryAndDisk';
+import { switchToShared } from '@store/whatToShow';
 import { RenderFields } from '@widgets/renderFields/renderFields';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { switchToSearch, switchToShow, switchToShared } from '@store/whatToShow';
-import { transfromToSharedRequestParams, transfromToShowRequestString } from '@api/transforms';
-import { ShowParams, transformToSearchParams, transformToShowParams } from '@models/searchParams'
-import '../show.scss'
-import { BreadCrumps } from '@entities/breadCrumps/breadCrumps';
+import '../show.scss';
 
 interface ShowSharedFilesProps { }
 
 const getParamsFromURL = () => {
 	const [searchParams] = useSearchParams();
-	const searchParamsToObject = (params) => {
+
+	const searchParamsToObject = (params: URLSearchParams) => {
 		const result: Record<string, string> = {};
 		params.forEach((value, key) => {
 			result[key] = value;
