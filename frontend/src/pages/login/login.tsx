@@ -24,7 +24,6 @@ export const LoginForm: FC<LoginFormProps> = () => {
 		navigate('/');
 	}
 
-
 	return (
 		<div className="login-form">
 			<div className="login-form__inputs">
