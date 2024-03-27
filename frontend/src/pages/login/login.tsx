@@ -1,6 +1,6 @@
 import { useLoginMutation } from '@api/userApi';
 import { login as loginAction } from '@store/userAuth';
-import { Button } from '@entities/button/Button';
+import { Button } from '@entities/button/button';
 import { Input } from '@entities/input/input';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
