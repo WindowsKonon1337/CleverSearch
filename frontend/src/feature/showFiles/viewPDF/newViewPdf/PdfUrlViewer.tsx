@@ -19,9 +19,8 @@ const PdfUrlViewer: FC<PdfUrlViewerProps> = ({ url, page }) => {
   const scrollToItem = () => {
     windowRef?.current && windowRef.current.scrollToItem(page - 1, 'start');
   };
-  console.log('url', url)
+  
   useEffect(() => {
-    console.log('url', url)
     const loadingTask = pdfjs.getDocument(url);
     loadingTask.promise.then(
       pdf => {

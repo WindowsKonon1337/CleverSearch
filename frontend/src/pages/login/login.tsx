@@ -14,7 +14,7 @@ export const LoginForm: FC<LoginFormProps> = () => {
 	const [loginField, setLogin] = useState('');
 	const [passwordField, setPassword] = useState('');
 
-	const [login, loginResp] = useLoginMutation({ fixedCacheKey: 'login' });
+	const [login, loginResp] = useLoginMutation();
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
