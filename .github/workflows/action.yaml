@@ -60,6 +60,6 @@ jobs:
           key: ${{ secrets.SSH_SERVER_KEY }}
           script: |
             cd ~/clever
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            docker compose down
+            docker compose pull
+            docker compose up -d
