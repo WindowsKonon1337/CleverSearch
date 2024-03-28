@@ -13,23 +13,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      
-      - name: install Dependencies
-        run: npm install
-        working-directory: frontend
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login --username windowskonon1337 --password-stdin
 
-      - name: npm build
-        run: npm run build:dev
-        working-directory: frontend
+      - name: Build frontend image
+        run: docker build -t windowskonon1337/cleversearch_frontend:latest ./frontend
+
+      - name: Push frontend image to Docker Hub
+        run: docker push windowskonon1337/cleversearch_frontend:latest
       
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: frontend/build/
-          overwrite: true
-          retention-days: 14
+      # - name: setup node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      
+      # - name: install Dependencies
+      #   run: npm install
+      #   working-directory: frontend
+
+      # - name: npm build
+      #   run: npm run build:dev
+      #   working-directory: frontend
+      
+      # - name: Archive build artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: build
+      #     path: frontend/build/
+      #     overwrite: true
+      #     retention-days: 14
