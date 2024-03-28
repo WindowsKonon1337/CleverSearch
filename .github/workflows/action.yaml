@@ -3,7 +3,8 @@ name: Build and Store Artifact
 on:
   push:
     branches:
-      - 'dev*'
+      - dev-RK3_CLEVER
+      - nginx-ci_BACK-CLEVER-7
 
 jobs:
   build_and_test:
@@ -32,4 +33,3 @@ jobs:
           path: frontend/build/
           overwrite: true
           retention-days: 14
-
