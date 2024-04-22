@@ -404,9 +404,83 @@ func (uc *Usecase) DeleteFiles(ctx context.Context, filePaths []string) error {
 		return sharederrors.ErrUserNotFoundInContext
 	}
 
+	filePath := filePaths[0]
+
+	pathComponents := strings.Split(filePath, "/")
+
+	// нельзя удалить sharing папку
+	if len(pathComponents) == 2 {
+		fileTmpShare, err := uc.repo.GetFileByPath(ctx, "/"+pathComponents[1], "")
+		if err != nil {
+			log.Println("GetFileByPath err:", err)
+			return err
+		}
+		if fileTmpShare.UserID != user.ID {
+			fmt.Println("not access to delete sharing dir")
+			return fmt.Errorf("not access to delete sharing dir")
+		}
+	}
+
+	var userID string
+	if len(pathComponents) > 2 {
+		fileTmpShare, err := uc.repo.GetFileByPath(ctx, "/"+pathComponents[1], "")
+		if err != nil {
+			log.Println("GetFileByPath err:", err)
+			return err
+		}
+
+		shredDir, err := uc.repo.GetSharedDir(ctx, fileTmpShare.ID, user.ID)
+		if err != nil {
+			if !errors.Is(err, fileDomain.ErrNotFound) {
+				log.Println("GetSharedDir err:", err)
+				return err
+			}
+			if errors.Is(err, fileDomain.ErrNotFound) {
+				fmt.Println("delete not sharing dir or file")
+				userID = user.ID
+			}
+		} else {
+			userID = fileTmpShare.UserID
+			if shredDir.ShareAccess != fileDomain.Writer {
+				log.Println("reader access, but try delete")
+				return fmt.Errorf("reader access, but try delete")
+			}
+		}
+	} else {
+		userID = user.ID
+	}
+
+	// if len(pathComponents) > 2 {
+	// 	fileTmpShare, err := uc.repo.GetFileByPath(ctx, "/"+pathComponents[1], "")
+	// 	if err != nil {
+	// 		log.Println("GetFileByPath err:", err)
+	// 		return err
+	// 	}
+
+	// 	shredDir, err := uc.repo.GetSharedDir(ctx, fileTmpShare.ID, user.ID)
+	// 	if err != nil {
+	// 		if !errors.Is(err, fileDomain.ErrNotFound) {
+	// 			log.Println("GetSharedDir err:", err)
+	// 			return err
+	// 		}
+	// 		if errors.Is(err, fileDomain.ErrNotFound) {
+	// 			userID = user.ID
+	// 		}
+	// 	} else {
+	// 		userID = ""
+	// 		// if !shredDir.Accepted || shredDir.ShareAccess != fileDomain.Writer {
+	// 		if shredDir.ShareAccess != fileDomain.Writer {
+	// 			log.Println("reader access, but try upload")
+	// 			return fmt.Errorf("reader access, but try upload")
+	// 		}
+	// 	}
+	// } else {
+	// 	userID = user.ID
+	// }
+
 	var files []file.File
 	for _, path := range filePaths {
-		file, err := uc.repo.GetFileByPath(ctx, path, user.ID)
+		file, err := uc.repo.GetFileByPath(ctx, path, userID)
 		if err != nil {
 			log.Println("GetFileByPath repo, path:", path, ", error:", err)
 			return err
@@ -422,7 +496,7 @@ func (uc *Usecase) DeleteFiles(ctx context.Context, filePaths []string) error {
 		stack = stack[:len(stack)-1]
 
 		if currentFile.IsDir {
-			dir, err := uc.repo.GetFileByPath(ctx, currentFile.Path, user.ID)
+			dir, err := uc.repo.GetFileByPath(ctx, currentFile.Path, currentFile.UserID)
 			if err != nil {
 				return err
 			}

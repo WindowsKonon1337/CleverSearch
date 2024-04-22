@@ -83,7 +83,6 @@ import (
 
 // корневая - это шеринг? то проверка на то, что ее пошарели и на то, что writer
 // если надо удалить корневую, то проверка, автор ли это?
-//
 
 var staticDir string = "/app/frontend/build"
 var staticDirMinio string = "/app/minio_files"
